@@ -46,6 +46,40 @@ class AssignmentService {
     return assignment;
   }
 
+  Assignment editAssignment({
+    required Student student,
+    required String assignmentId,
+    required String title,
+    required DateTime dueDate,
+    required Subject subject,
+    Priority priority = Priority.medium,
+  }) {
+    //Assignment must exist
+    final assignment = student.assignments.firstWhere(
+      (a) => a.id == assignmentId,
+      orElse: () => throw StateError('Assignment not found'),
+    );
+
+    //Title must not be empty
+    if (title.trim().isEmpty) {
+      throw ArgumentError('Assignment title cannot be empty');
+    }
+
+    //New subject must belong to student
+    if (!student.subjects.any((s) => identical(s, subject))) {
+      throw StateError('Subject does not belong to student');
+    }
+
+    //Apply the changes
+    assignment
+      ..title = title.trim()
+      ..dueDate = dueDate
+      ..subject = subject
+      ..priority = priority;
+
+    return assignment;
+  }
+
   void updateStatus({
     required Student student,
     required String assignmentId,

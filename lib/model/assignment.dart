@@ -32,7 +32,7 @@ class Assignment {
     status = AssignmentStatus.completed;
   }
 
-  void markPandding(){
+  void markPending(){
     status = AssignmentStatus.pending;
   }
 
